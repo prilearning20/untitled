@@ -1,54 +1,66 @@
 package Suite;
 
-import Listeners.MyCustomListener;
-import com.epam.reportportal.annotations.Step;
+import com.epam.reportportal.annotations.TestCaseId;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.*;
-import com.epam.reportportal.annotations.TestCaseId;
-import com.epam.reportportal.annotations.TestCaseIdKey;
-import org.testng.Assert;
-import rp.org.apache.commons.logging.Log;
-
-
-import javax.validation.constraints.AssertTrue;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static Listeners.ReportBase.threadLocal;
-import static java.lang.Thread.sleep;
-
 
 //@Listeners(MyCustomListener.class)
-public class ReportPortalTests {
-    private static final Logger LOGGER = LogManager.getLogger(ReportPortalTests.class);
+public class GridTestsChrome {
+    //private static final Logger LOGGER = LogManager.getLogger(GridTestsChrome.class);
     WebDriver driver;
-    String baseUrl = "https://www.jetbrains.com/";
-    String nodeUrl = "http://127.0.0.1:4444/wd/hub";
-    @Parameters({"Port"})
-    @BeforeClass
-    public void initiateDriver(String Port) throws MalformedURLException {
+    String baseUrl = "https://www.google.com/";
+    //String nodeUrl = "http://127.0.0.1:4444/wd/hub";
 
-        DesiredCapabilities capability = new DesiredCapabilities();
+    //@Parameters({"Port"})
+    @BeforeMethod
+    public void initiateDriver() throws MalformedURLException {
+        driver = Browser.getDriver("chrome");
+        driver.manage().window().maximize();
 
-        if(Port.equalsIgnoreCase("9001"))
-        {
-            capability.setCapability(CapabilityType.BROWSER_NAME,"chrome");
-            driver = new RemoteWebDriver(new URL(nodeUrl),capability);
-            driver.manage().window().maximize();
-        }
-        else if(Port.equalsIgnoreCase("9002")){
-            capability.setCapability(CapabilityType.BROWSER_NAME,"firefox");
-            driver = new RemoteWebDriver(new URL(nodeUrl),capability);
-            driver = new RemoteWebDriver(new URL(nodeUrl),capability); driver.manage().window().maximize();
-        }
+
+    }
+    /*@TestCaseId(parametrized = true)
+    @Test(dataProvider="SearchProvider")*/
+    @Test
+    public void distribTest_grid_chrome1() throws MalformedURLException {
+/*        DesiredCapabilities capability = new DesiredCapabilities();
+        capability.setCapability(CapabilityType.BROWSER_NAME, "chrome");
+        driver = new RemoteWebDriver(new URL(nodeUrl), capability);
+        driver.manage().window().maximize();*/
+        driver.get(baseUrl);
+        driver.close();
+        //System.out.println(SearchProvider);
+
+
+    }
+    @Test
+    public void distribTest_grid_chrome2() throws MalformedURLException {
+
+        //driver.manage().window().maximize();
+        driver.get(baseUrl);
+        driver.close();
+        //System.out.println(SearchProvider);
+
+
+    }
+    @DataProvider(name = "SearchProvider", parallel = true)
+    public Object[][] getDataFromDataprovider() {
+        return new Object[][]
+                {
+                        {"test", "India"},
+                        {"Krishna", "UK"},
+                        {"Bhupesh", "USA"}
+                };
+
     }
     /*@Test
     public void Listest1(){
@@ -164,37 +176,16 @@ public class ReportPortalTests {
     }*/
 
 
-/*    @TestCaseId(parametrized = true)
-    @Test(dataProvider="SearchProvider")
-    public void distribTest_local(@Optional("Abc") String SearchProvider,
-                            @Optional("TESTID-1111") @TestCaseIdKey String testCaseId) {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\shanm\\IdeaProjects\\untitled\\cucu\\src\\test\\resources\\Driver\\chromedriver.exe");
-        WebDriver driver1 = new ChromeDriver();
-        driver1.get("https://www.jetbrains.com/");
-        driver1.close();
-        System.out.println("TESTING"+SearchProvider);
+    /*    @TestCaseId(parametrized = true)
+        @Test(dataProvider="SearchProvider")
+        public void distribTest_local(@Optional("Abc") String SearchProvider,
+                                @Optional("TESTID-1111") @TestCaseIdKey String testCaseId) {
+            System.setProperty("webdriver.chrome.driver", "C:\\Users\\shanm\\IdeaProjects\\untitled\\cucu\\src\\test\\resources\\Driver\\chromedriver.exe");
+            WebDriver driver1 = new ChromeDriver();
+            driver1.get("https://www.jetbrains.com/");
+            driver1.close();
+            System.out.println("TESTING"+SearchProvider);
 
-    }*/
-    @TestCaseId(parametrized = true)
-    @Test(dataProvider="SearchProvider")
-    public void distribTest_grid(@Optional("Abc") String SearchProvider,
-                            @Optional("TESTID-1111") @TestCaseIdKey String testCaseId) throws MalformedURLException {
+        }*/
 
-
-
-        driver.get(baseUrl);
-
-
-    }
-
-    @DataProvider(name = "SearchProvider",parallel = true)
-    public Object[][] getDataFromDataprovider() {
-        return new Object[][]
-                {
-                        {"test", "India"},
-                        {"Krishna", "UK"},
-                        {"Bhupesh", "USA"}
-                };
-
-    }
 }

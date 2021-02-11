@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite thread-count="2" name="SeleniumGridDocker" parallel="tests">
+    <listeners>
+        <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener"/>
+        <listener class-name="Listeners.MyCustomListener"></listener>
+    </listeners>
+
+    <test name="Chrome Test">
+<!--        <parameter name="browser" value="chrome" />
+        <parameter name="Port" value="9001" />-->
+        <classes>
+            <class name="Suite.GridTestsChrome" />
+        </classes>
+
+
+    </test>
+
+
+</suite>
